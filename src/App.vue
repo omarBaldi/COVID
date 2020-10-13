@@ -5,7 +5,14 @@
 
         <v-row class="justify-center mt-3">
           <v-col cols=12 lg=9 md=8 sm=12>
+            <GlobalModeButton />
             <Map />
+          </v-col>
+        </v-row>
+
+        <v-row class="text-center justify-center">
+          <v-col cols=10>
+            <Description />
           </v-col>
         </v-row>
 
@@ -15,12 +22,16 @@
 </template>
 
 <script>
+import GlobalModeButton from './components/GlobalModeButton';
 import Map from './components/Map';
+import Description from './components/Description';
 
 export default {
   name: 'App',
   components: {
-    Map
+    GlobalModeButton,
+    Map,
+    Description
   },
   created() {
     this.$store.dispatch('getCovidData');

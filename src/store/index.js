@@ -6,6 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    globalMode: true,
     baseURL: 'https://api.covid19api.com',
     covidData: {
       global: null,
@@ -17,6 +18,13 @@ export default new Vuex.Store({
     returnCountriesData(state) {
       return state.covidData.countries
     },
+    returnCurrentDataSelected(state) {
+      if (state.globalMode) {
+        return state.covidData.global
+      } else {
+        return state.countrySelectedData
+      }
+    },
   },
   mutations: {
     setCovidData(state, payload) {
@@ -26,6 +34,9 @@ export default new Vuex.Store({
     },
     setCurrentCountryData(state, payload) {
       state.countrySelectedData = payload;
+    },
+    setMode(state, payload) {
+      state.globalMode = payload;
     },
   },
   actions: {
@@ -40,6 +51,7 @@ export default new Vuex.Store({
     findCountryData({ state, commit }, country_code) {
       const currentCountryData = state.covidData.countries.find(country => country.CountryCode === country_code);
       commit('setCurrentCountryData', currentCountryData);
+      commit('setMode', false);
     },
   },
   modules: {
