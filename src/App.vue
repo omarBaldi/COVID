@@ -32,6 +32,22 @@
           </v-col>
         </v-row>
 
+        <v-row class="justify-center text-center mb-16 mt-16 white--text">
+          <v-col cols=12 lg=9 md=8 sm=12>
+            <h1 class="headline font-weight-light">
+              Trend - past 2 months
+              <v-icon color="white" class="ml-2" medium>mdi-trending-up</v-icon>
+            </h1>
+            <h4 class="font-weight-light mt-3">
+              This graph below show the trend of the people infected, recovered and death  
+              <br>
+              during a specific temporal arc by drag it either to right or left.
+            </h4>
+            <Timeline />
+          </v-col>
+        </v-row>
+
+
       </v-container>
     </v-main>
   </v-app>
@@ -43,6 +59,7 @@ import Map from './components/Map';
 import Description from './components/Description';
 import Ratio from './components/Ratio';
 import NewCases from './components/NewCases';
+import Timeline from './components/Timeline';
 
 export default {
   name: 'App',
@@ -51,7 +68,8 @@ export default {
     Map,
     Description,
     Ratio,
-    NewCases
+    NewCases,
+    Timeline
   },
   created() {
     this.$store.dispatch('getCovidData');

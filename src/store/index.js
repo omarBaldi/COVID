@@ -6,13 +6,16 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    today: new Date().toISOString().split('T')[0] + "T00:00:00Z",
+    daysAgo: null,
     globalMode: true,
     baseURL: 'https://api.covid19api.com',
     covidData: {
       global: null,
       countries: null
     },
-    countrySelectedData: null
+    countrySelectedData: null,
+    covidDataTimeline: null
   },
   getters: {
     returnCountriesData(state) {
@@ -24,6 +27,9 @@ export default new Vuex.Store({
       } else {
         return state.countrySelectedData
       }
+    },
+    dataTimeline(state) {
+      return state.covidDataTimeline  
     },
   },
   mutations: {
@@ -38,8 +44,20 @@ export default new Vuex.Store({
     setMode(state, payload) {
       state.globalMode = payload;
     },
+    setDaysAgo(state, payload) {
+      state.daysAgo = payload;
+    },
+    setCovidDataTimeline(state, payload) {
+      state.covidDataTimeline = payload;
+    },
   },
   actions: {
+    calculateDaysAgo({ dispatch, commit }, daysToSubtract) {
+      let lastDate = new Date().setDate(new Date().getDate() - daysToSubtract);
+      lastDate = new Date(lastDate).toISOString().split('T')[0] + "T00:00:00Z";
+      commit('setDaysAgo', lastDate);
+      dispatch('getCovidDataTimeline');
+    },
     async getCovidData({ state, commit }) {
       try {
         const response = await axios.get(`${state.baseURL}/summary`);
@@ -48,11 +66,29 @@ export default new Vuex.Store({
         console.log(`Error occuring during retrieving covid data: ${err.message}`);
       }
     },
-    findCountryData({ state, commit }, country_code) {
+    async getCovidDataTimeline({ state, commit }) {
+
+      let response;
+
+      try {
+        if (state.globalMode) {
+          response = await axios.get(`${state.baseURL}/world?from=${state.daysAgo}&to=${state.today}`);
+          response.data.sort((a, b) => a.TotalConfirmed - b.TotalConfirmed);
+        } else {
+          response = await axios.get(`${state.baseURL}/country/${state.countrySelectedData.Slug}?from=${state.daysAgo}&to=${state.today}`);
+        }
+
+        commit('setCovidDataTimeline', response.data);
+      } catch(err) {
+        console.log(`Error occuring during retrieving covid data timeline: ${err.message}`)
+      }
+    },
+    findCountryData({ state, commit, dispatch }, country_code) {
       const currentCountryData = state.covidData.countries.find(country => country.CountryCode === country_code);
       commit('setCurrentCountryData', currentCountryData);
       commit('setMode', false);
-    },
+      dispatch('getCovidDataTimeline');
+    }
   },
   modules: {
 
