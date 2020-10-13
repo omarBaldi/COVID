@@ -22,6 +22,16 @@
           </v-col>
         </v-row>
 
+        <v-row class="justify-center text-center mb-16 mt-16">
+          <v-col cols=6 lg=6 md=8 sm=12>
+            <h1 class="headline font-weight-light white--text ml-6">
+              New daily cases
+              <v-icon color="white" class="ml-2">mdi-plus</v-icon>
+            </h1>
+            <NewCases/>
+          </v-col>
+        </v-row>
+
       </v-container>
     </v-main>
   </v-app>
@@ -32,6 +42,7 @@ import GlobalModeButton from './components/GlobalModeButton';
 import Map from './components/Map';
 import Description from './components/Description';
 import Ratio from './components/Ratio';
+import NewCases from './components/NewCases';
 
 export default {
   name: 'App',
@@ -39,7 +50,8 @@ export default {
     GlobalModeButton,
     Map,
     Description,
-    Ratio
+    Ratio,
+    NewCases
   },
   created() {
     this.$store.dispatch('getCovidData');
