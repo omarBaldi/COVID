@@ -15,7 +15,7 @@
                     <v-btn
                         icon
                         dark
-                        @click="$store.dispatch('changeTimelineData', true)"
+                        @click="$store.commit('setMode', true)"
                         v-bind="attrs"
                         v-on="on"
                         class="mt-2"

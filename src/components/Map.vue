@@ -1,5 +1,6 @@
 <template>
-    <v-card 
+    <v-card
+        :class="[$store.state.globalMode ? 'mt-16' : '']"
         elevation="0" 
         width="100%" 
         color="transparent" 
