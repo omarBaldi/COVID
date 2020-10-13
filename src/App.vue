@@ -47,6 +47,11 @@
           </v-col>
         </v-row>
 
+        <v-container>
+          <v-row class="justify-start"><ButtonCountries /></v-row>
+          <v-row class="justify-center"><ChartCountries /></v-row>
+        </v-container>
+
 
       </v-container>
     </v-main>
@@ -60,6 +65,8 @@ import Description from './components/Description';
 import Ratio from './components/Ratio';
 import NewCases from './components/NewCases';
 import Timeline from './components/Timeline';
+import ButtonCountries from './components/ButtonCountries';
+import ChartCountries from './components/ChartCountries';
 
 export default {
   name: 'App',
@@ -69,7 +76,9 @@ export default {
     Description,
     Ratio,
     NewCases,
-    Timeline
+    Timeline,
+    ButtonCountries,
+    ChartCountries
   },
   created() {
     this.$store.dispatch('getCovidData');

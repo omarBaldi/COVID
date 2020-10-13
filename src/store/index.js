@@ -15,7 +15,8 @@ export default new Vuex.Store({
       countries: null
     },
     countrySelectedData: null,
-    covidDataTimeline: null
+    covidDataTimeline: null,
+    countriesChartMode: 'Confirmed'
   },
   getters: {
     returnCountriesData(state) {
@@ -31,6 +32,30 @@ export default new Vuex.Store({
     dataTimeline(state) {
       return state.covidDataTimeline  
     },
+    returnFirst10Countries(state) {
+
+      if (state.covidData.countries) {
+        switch (state.countriesChartMode) {
+          case 'Deaths':
+            return state.covidData.countries
+              .sort((a, b) => b.TotalDeaths - a.TotalDeaths)
+              .map(({ CountryCode, Country, TotalDeaths }) => ({ countryCode: CountryCode, name: Country, number: TotalDeaths }))
+              .slice(0, 10);
+
+          case 'Recovered':
+            return state.covidData.countries
+              .sort((a, b) => b.TotalRecovered - a.TotalRecovered)
+              .map(({ CountryCode, Country, TotalRecovered }) => ({ countryCode: CountryCode, name: Country, number: TotalRecovered }))
+              .slice(0, 10);
+
+          case 'Confirmed':
+          return state.covidData.countries
+            .sort((a, b) => b.TotalConfirmed - a.TotalConfirmed)
+            .map(({ CountryCode, Country, TotalConfirmed }) => ({ countryCode: CountryCode, name: Country, number: TotalConfirmed }))
+            .slice(0, 10)
+        }
+      }
+    }
   },
   mutations: {
     setCovidData(state, payload) {
@@ -49,6 +74,9 @@ export default new Vuex.Store({
     },
     setCovidDataTimeline(state, payload) {
       state.covidDataTimeline = payload;
+    },
+    changeCountriesChartMode(state, payload) {
+      state.countriesChartMode = payload;
     },
   },
   actions: {
