@@ -1,29 +1,29 @@
 <template>
-  <v-app>
+  <v-app id="app">
     <v-main>
-      <v-container fluid fill-height align-baseline>
 
+      <v-container fluid fill-height align-baseline>
         <v-row class="justify-center">
-          <v-col cols=12 lg=9 md=8 sm=12>
+          <v-col cols=12 lg=9 md=8 sm=12 style="border: 1px solid white;">
             <GlobalModeButton />
             <Map />
           </v-col>
         </v-row>
 
         <v-row class="text-center justify-center">
-          <v-col cols=10>
+          <v-col cols=12 lg=9 md=8 sm=12 style="border: 1px solid white;">
             <Description />
           </v-col>
         </v-row>
 
         <v-row class="justify-center mt-16 mb-16">
-          <v-col cols=6 lg=6 md=8 sm=12>
+          <v-col cols=12 lg=9 md=8 sm=12 style="border: 1px solid white;">
             <Ratio />
           </v-col>
         </v-row>
 
         <v-row class="justify-center text-center mb-16 mt-16">
-          <v-col cols=6 lg=6 md=8 sm=12>
+          <v-col cols=12 lg=9 md=8 sm=12>
             <h1 class="headline font-weight-light white--text ml-6">
               New daily cases
               <v-icon color="white" class="ml-2">mdi-plus</v-icon>
@@ -54,6 +54,14 @@
 
 
       </v-container>
+
+      <div class="warning__viewport" v-if="pageWidth < 500">
+        <div class="content">
+          <h3>Rotate your phone for a better experience</h3>
+          <v-icon dark large class="mt-3">mdi-rotate-3d-variant</v-icon>
+        </div>
+      </div>
+
     </v-main>
   </v-app>
 </template>
@@ -80,16 +88,43 @@ export default {
     ButtonCountries,
     ChartCountries
   },
+  data() {
+    return {
+      pageWidth: null
+    }
+  },
   created() {
     this.$store.dispatch('getCovidData');
+  },
+  mounted() {
+    ['resize', 'load'].forEach(event => {
+      window.addEventListener(event, () => this.pageWidth = window.innerWidth)
+    });
   }
 }
 </script>
 
-<style>
+<style lang="scss">
   @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
   #app {
     font-family: 'Open Sans', sans-serif;
     background-color: #2d3436;
+  }
+  .warning__viewport {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #222;
+    color: white;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    .content {
+      position: fixed;
+      top: 50%;
+      padding: 10px;
+    }
   }
 </style>
