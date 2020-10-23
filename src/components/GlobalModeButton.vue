@@ -18,7 +18,7 @@
                         @click="$store.commit('setMode', true)"
                         v-bind="attrs"
                         v-on="on"
-                        class="mt-2"
+                        class="mt-2 mr-6"
                         >
                             <v-icon size="40">mdi-earth</v-icon>
                         </v-btn>

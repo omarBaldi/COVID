@@ -4,20 +4,20 @@
 
       <v-container fluid fill-height align-baseline>
         <v-row class="justify-center">
-          <v-col cols=12 lg=9 md=8 sm=12 style="border: 1px solid white;">
+          <v-col cols=12 lg=9 md=8 sm=12>
             <GlobalModeButton />
             <Map />
           </v-col>
         </v-row>
 
         <v-row class="text-center justify-center">
-          <v-col cols=12 lg=9 md=8 sm=12 style="border: 1px solid white;">
+          <v-col cols=12 lg=9 md=8 sm=12>
             <Description />
           </v-col>
         </v-row>
 
         <v-row class="justify-center mt-16 mb-16">
-          <v-col cols=12 lg=9 md=8 sm=12 style="border: 1px solid white;">
+          <v-col cols=12 lg=9 md=8 sm=12>
             <Ratio />
           </v-col>
         </v-row>
